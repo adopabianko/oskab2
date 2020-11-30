@@ -9,7 +9,7 @@ use Yajra\Datatables\Datatables;
 class UserRepository implements UserRepositoryInterface {
 
     public function datatables() {
-        return Datatables::of(User::with('role')->orderBy('id','desc')->get())
+        return Datatables::of(User::with('role')->where('active', 1)->orderBy('id','desc')->get())
         ->editColumn('actions', function($col) {
             $actions = '';
 
@@ -21,7 +21,7 @@ class UserRepository implements UserRepositoryInterface {
                 ';
             }
 
-            if (\Laratrust::isAbleTo('user-destroy-data')) {
+            if (\Laratrust::isAbleTo('user-destroy-data') && \Auth::user()->id !== $col->id) {
                 $actions .= '
                     <a href="' . route('user.destroy', ['user' => $col->id]) . '" class="btn btn-xs bg-gradient-danger" onclick="return confirm(\'Anda yakin untuk menghapus data ?\');" data-toggle="tooltip" data-placement="top" title="Delete">
                         <i class="fa fa-trash-alt" aria-hidden="true"></i>
@@ -91,6 +91,6 @@ class UserRepository implements UserRepositoryInterface {
     }
 
     public function destroy($id) {
-        return User::destroy($id);
+        return User::where('id', $id)->update(['active' => 0]);
     }
 }

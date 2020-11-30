@@ -98,7 +98,7 @@ class RoleController extends Controller
                 $role->attachPermission($value);
             }
 
-            \Session::flash('alert-success', 'Management Akses berhasil diubah.');
+            \Session::flash('alert-success', 'Access management successfully updated.');
         } else {
             // insert data
             $role = $this->roleRepository->getById($roleId);
@@ -107,7 +107,7 @@ class RoleController extends Controller
                 $role->attachPermission($value);
             }
 
-            \Session::flash('alert-success', 'Management Akses berhasil ditambahkan.');
+            \Session::flash('alert-success', 'Access management successfully added.');
         }
 
         return redirect()->route('role');
