@@ -93,4 +93,10 @@ class UserRepository implements UserRepositoryInterface {
     public function destroy($id) {
         return User::where('id', $id)->update(['active' => 0]);
     }
+
+    public function profileUpdate($reqParam, $userData) {
+        $reqParam['password'] = \Hash::make($reqParam->password);
+
+        return $userData->update($reqParam->all());
+    }
 }

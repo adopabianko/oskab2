@@ -50,3 +50,5 @@ Route::post('/user/store', [App\Http\Controllers\UserController::class, 'store']
 Route::get('/user/{user}/edit', [App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
 Route::put('/user/{user}/update', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
 Route::get('/user/{user}/destroy', [App\Http\Controllers\UserController::class, 'destroy'])->name('user.destroy');
+Route::get('/user/profile', [App\Http\Controllers\UserController::class, 'profile'])->name('user.profile');
+Route::put('/user/{user}/profile-update', [App\Http\Controllers\UserController::class, 'profileUpdate'])->name('user.profile-update');

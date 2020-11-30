@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\ProfileRequest;
 use App\Repositories\UserRepository;
 use App\Repositories\RoleRepository;
 use App\Models\User;
@@ -43,7 +44,7 @@ class UserController extends Controller
         if ($save) {
             \Session::flash("alert-success", "User successfully saved");
         } else {
-            \Session::flash("alert-error", "User unsuccessfully saved");
+            \Session::flash("alert-danger", "User unsuccessfully saved");
         }
 
         return redirect()->route('user');
@@ -61,7 +62,7 @@ class UserController extends Controller
         if ($update) {
             \Session::flash("alert-success", "User successfully updated");
         } else {
-            \Session::flash("alert-error", "User unsuccessfully updated");
+            \Session::flash("alert-danger", "User unsuccessfully updated");
         }
 
         return redirect()->route('user');
@@ -73,9 +74,29 @@ class UserController extends Controller
         if ($destroy) {
             \Session::flash("alert-success", "User successfully destroyed");
         } else {
-            \Session::flash("alert-error", "User unsuccessfully destroyed");
+            \Session::flash("alert-danger", "User unsuccessfully destroyed");
         }
 
         return redirect()->route('user');
+    }
+
+    public function profile() {
+        $userId = \Auth::user()->id;
+
+        $user = User::where('id', $userId)->first();
+
+        return view('user.profile', compact('user'));
+    }
+
+    public function profileUpdate(ProfileRequest $request, User $user) {
+        $update = $this->userRepository->profileUpdate($request, $user);
+
+        if ($update) {
+            \Session::flash("alert-success", "Profile successfully updated");
+        } else {
+            \Session::flash("alert-danger", "Profile unsuccessfully updated");
+        }
+
+        return redirect()->route('user.profile');
     }
 }

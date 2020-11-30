@@ -45,7 +45,7 @@ class RoleController extends Controller
         if ($save) {
             \Session::flash("alert-success", "Role sucessfully saved");
         } else {
-            \Session::flash("alert-error", "Role unsucessfully saved");
+            \Session::flash("alert-danger", "Role unsucessfully saved");
         }
 
         return redirect()->route('role');
@@ -61,7 +61,7 @@ class RoleController extends Controller
         if ($update) {
             \Session::flash("alert-success", "Role sucessfully updated");
         } else {
-            \Session::flash("alert-error", "Role unsucessfully updated");
+            \Session::flash("alert-danger", "Role unsucessfully updated");
         }
 
         return redirect()->route('role');

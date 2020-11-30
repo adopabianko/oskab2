@@ -33,6 +33,14 @@ body, html, main {
                     @endpermission
                 </div>
             </div>
+            @foreach(['danger', 'success'] as $msg) 
+                @if (Session::has('alert-' . $msg))
+                    <div class="alert alert-{{ $msg }} alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        {{ Session::get('alert-' . $msg) }}
+                    </div>
+                @endif
+            @endforeach
         </div>
         <!-- /.container-fluid -->
     </section>

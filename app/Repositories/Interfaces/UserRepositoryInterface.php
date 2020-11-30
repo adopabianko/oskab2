@@ -7,4 +7,5 @@ interface UserRepositoryInterface {
     public function save($userData);
     public function update($reqParam, $userData);
     public function destroy($id);
+    public function profileUpdate($reqParam, $userData);
 }

@@ -37,7 +37,7 @@ class PermissionController extends Controller
         if ($save) {
             \Session::flash("alert-success", "Permission sucessfully saved");
         } else {
-            \Session::flash("alert-error", "Permission unsucessfully saved");
+            \Session::flash("alert-danger", "Permission unsucessfully saved");
         }
 
         return redirect()->route('permission');
@@ -53,7 +53,7 @@ class PermissionController extends Controller
         if ($update) {
             \Session::flash("alert-success", "Permission sucessfully updated");
         } else {
-            \Session::flash("alert-error", "Permission unsucessfully updated");
+            \Session::flash("alert-danger", "Permission unsucessfully updated");
         }
 
         return redirect()->route('permission');
