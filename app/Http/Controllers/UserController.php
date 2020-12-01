@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\ProfileRequest;
 use App\Repositories\UserRepository;
@@ -15,7 +14,7 @@ class UserController extends Controller
     private $roleRepository;
 
     public function __construct(
-        UserRepository $userRepository, 
+        UserRepository $userRepository,
         RoleRepository $roleRepository
     ) {
         $this->middleware('auth');
