@@ -11,7 +11,7 @@
                     <h1>Profile</h1>
                 </div>
             </div>
-            @foreach(['danger', 'success'] as $msg) 
+            @foreach(['danger', 'success'] as $msg)
                 @if (Session::has('alert-' . $msg))
                     <div class="alert alert-{{ $msg }} alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -77,10 +77,6 @@
                     <!-- /.card -->
                 </div>
                 <!--/.col (left) -->
-                <!-- right column -->
-                <div class="col-md-6">
-                </div>
-                <!--/.col (right) -->
             </div>
             <!-- /.row -->
         </div>

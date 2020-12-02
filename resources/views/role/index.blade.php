@@ -4,15 +4,6 @@
 <!-- DataTables -->
 <link rel="stylesheet" href="{{ asset('theme/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset('theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-<style>
-body, html, main {
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    overflow: hidden;
-}
-</style>
 @stop
 
 @section('content')
@@ -33,7 +24,7 @@ body, html, main {
                     @endpermission
                 </div>
             </div>
-            @foreach(['danger', 'success'] as $msg) 
+            @foreach(['danger', 'success'] as $msg)
                 @if (Session::has('alert-' . $msg))
                     <div class="alert alert-{{ $msg }} alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -74,10 +65,6 @@ body, html, main {
                     <!-- /.card -->
                 </div>
                 <!--/.col (left) -->
-                <!-- right column -->
-                <div class="col-md-6">
-                </div>
-                <!--/.col (right) -->
             </div>
             <!-- /.row -->
         </div>

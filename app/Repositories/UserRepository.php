@@ -54,7 +54,7 @@ class UserRepository implements UserRepositoryInterface {
 
             return false;
         }
-        
+
     }
 
     public function update($reqParam, $userData) {
@@ -66,7 +66,7 @@ class UserRepository implements UserRepositoryInterface {
 
             if (!empty($password)) {
                 $password = \Hash::make($password);
-                
+
                 $update['password'] = $password;
             } else {
                 unset($update['password']);

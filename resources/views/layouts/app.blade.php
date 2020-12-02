@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>OSKAB</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -144,11 +144,6 @@
                 <strong>Copyright &copy; 2020-{{ date('Y') }} <a href="{{ route('home') }}">OSKAB</a>.</strong> All rights
                 reserved.
             </footer>
-            <!-- Control Sidebar -->
-            <aside class="control-sidebar control-sidebar-dark">
-                <!-- Control sidebar content goes here -->
-            </aside>
-            <!-- /.control-sidebar -->
         </div>
         <!-- ./wrapper -->
         <!-- jQuery -->
