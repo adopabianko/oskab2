@@ -17,6 +17,7 @@
         "laravel/ui": "^3.0",
         "predis/predis": "^1.1",
         "santigarcor/laratrust": "^6.3",
+        "vladimir-yuldashev/laravel-queue-rabbitmq": "^11.0",
         "yajra/laravel-datatables": "^1.5",
         "yajra/laravel-datatables-oracle": "~9.0"
     },
