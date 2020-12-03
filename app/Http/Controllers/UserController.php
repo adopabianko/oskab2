@@ -7,6 +7,7 @@ use App\Http\Requests\ProfileRequest;
 use App\Repositories\UserRepository;
 use App\Repositories\RoleRepository;
 use App\Models\User;
+use App\Jobs\SendUserAccount;
 
 class UserController extends Controller
 {
@@ -38,11 +39,16 @@ class UserController extends Controller
     }
 
     public function store(UserRequest $request) {
-        $save = $this->userRepository->save($request->all());
+        try {
+            $reqAll = $request->all();
 
-        if ($save) {
+            // send to email user
+            SendUserAccount::dispatch($reqAll);
+
+            $this->userRepository->save($reqAll);
+
             \Session::flash("alert-success", "User successfully saved");
-        } else {
+        } catch(Exception $e) {
             \Session::flash("alert-danger", "User unsuccessfully saved");
         }
 
@@ -56,11 +62,14 @@ class UserController extends Controller
     }
 
     public function update(UserRequest $request, User $user) {
-        $update = $this->userRepository->update($request, $user);
+        try {
+            // send to email user
+            SendUserAccount::dispatch($request->all());
+            
+            $this->userRepository->update($request, $user);
 
-        if ($update) {
             \Session::flash("alert-success", "User successfully updated");
-        } else {
+        } catch(Exception $e) {
             \Session::flash("alert-danger", "User unsuccessfully updated");
         }
 
