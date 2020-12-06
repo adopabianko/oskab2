@@ -65,7 +65,7 @@ class UserController extends Controller
         try {
             // send to email user
             SendUserAccount::dispatch($request->all());
-            
+
             $this->userRepository->update($request, $user);
 
             \Session::flash("alert-success", "User successfully updated");
@@ -99,7 +99,7 @@ class UserController extends Controller
     public function profileUpdate(ProfileRequest $request, User $user) {
         $update = $this->userRepository->profileUpdate($request, $user);
 
-        if ($update) {
+        if ($update) {  
             \Session::flash("alert-success", "Profile successfully updated");
         } else {
             \Session::flash("alert-danger", "Profile unsuccessfully updated");

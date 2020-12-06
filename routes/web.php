@@ -13,17 +13,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
+Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
+Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
 Route::group(['middleware' => ["permission:home*"]], function() {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
+/**
+ * Role
+ */
 Route::group(['middleware' => ["permission:role*"]], function() {
-    /**
-     * Role
-     */
     Route::get('/role', [App\Http\Controllers\RoleController::class, 'index'])->name('role');
     Route::get('/role/datatables', [App\Http\Controllers\RoleController::class, 'datatables'])->name('role.datatables');
     Route::get('/role/create', [App\Http\Controllers\RoleController::class, 'create'])->name('role.create');
@@ -34,10 +36,10 @@ Route::group(['middleware' => ["permission:role*"]], function() {
     Route::post('role/access-management-store', [App\Http\Controllers\RoleController::class, 'accessManagementStore'])->name('role.access-management-store');
 });
 
+/**
+ * Permission
+ */
 Route::group(['middleware' => ["permission:permission*"]], function() {
-    /**
-     * Permission
-     */
     Route::get('/permission', [App\Http\Controllers\PermissionController::class, 'index'])->name('permission');
     Route::get('/permission/datatables', [App\Http\Controllers\PermissionController::class, 'datatables'])->name('permission.datatables');
     Route::get('/permission/create', [App\Http\Controllers\PermissionController::class, 'create'])->name('permission.create');
@@ -46,10 +48,10 @@ Route::group(['middleware' => ["permission:permission*"]], function() {
     Route::put('/permission/{permission}/update', [App\Http\Controllers\PermissionController::class, 'update'])->name('permission.update');
 });
 
+/**
+ * User
+ */
 Route::group(['middleware' => ["permission:user*"]], function() {
-    /**
-     * User
-     */
     Route::get('/user', [App\Http\Controllers\UserController::class, 'index'])->name('user');
     Route::get('/user/datatables', [App\Http\Controllers\UserController::class, 'datatables'])->name('user.datatables');
     Route::get('/user/create', [App\Http\Controllers\UserController::class, 'create'])->name('user.create');
