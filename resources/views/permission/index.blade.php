@@ -94,11 +94,11 @@
             serverSide: true,
             ajax: window.location.href + '/datatables',
             columns: [
-                {data: 'DT_RowIndex', name: 'id', className: "text-center", searchable: false},
+                {data: 'DT_RowIndex', name: 'id', className: "text-center", searchable: false, orderable: false},
                 {data: 'name', name: 'name'},
                 {data: 'display_name', name: 'display_name'},
                 {data: 'description', name: 'description'},
-                {data: 'actions', name: 'actions', className: "text-center", searchable: false},
+                {data: 'actions', name: 'actions', className: "text-center", searchable: false, orderable: false},
             ]
         });
     })
