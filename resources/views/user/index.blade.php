@@ -4,6 +4,8 @@
 <!-- DataTables -->
 <link rel="stylesheet" href="{{ asset('theme/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset('theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('theme/plugins/alertify/themes/alertify.core.css') }}">
+<link rel="stylesheet" href="{{ asset('theme/plugins/alertify/themes/alertify.bootstrap.css') }}">
 @stop
 
 @section('content')
@@ -81,6 +83,7 @@
 <script src="{{ asset('theme/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('theme/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('theme/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('theme/plugins/alertify/lib/alertify.min.js')}}"></script>
 <script>
     $(function() {
         $("body").tooltip({
@@ -92,7 +95,7 @@
             responsive: true,
             processing: true,
             serverSide: true,
-            ajax: '{!! route('user.datatables') !!}',
+            ajax: window.location.href + '/datatables',
             columns: [
                 {data: 'DT_RowIndex', name: 'id', className: "text-center", searchable: false},
                 {data: 'role.display_name', name: 'role_name'},
@@ -102,5 +105,23 @@
             ]
         });
     })
+
+    function Delete(id, name) {
+        alertify.confirm("Are you sure want to delete " + "'"+ name +"'", function (e) {
+            if (e) {
+                $.get(window.location.href + '/' + id + '/destroy', function(data) {
+                    var obj = jQuery.parseJSON(JSON.stringify(data));
+
+                    if (obj.status == 'success') {
+                        alertify.alert(obj.message, function(e) {
+                            window.location.reload();
+                        });
+                    } else {
+                        alertify.alert(obj.message);
+                    }
+                });
+            }
+        });
+    }
 </script>
 @stop

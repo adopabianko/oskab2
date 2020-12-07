@@ -79,13 +79,17 @@ class UserController extends Controller
     public function destroy(User $user) {
         $destroy = $this->userRepository->destroy($user->id);
 
-        if ($destroy) {
-            \Session::flash("alert-success", "User successfully destroyed");
-        } else {
-            \Session::flash("alert-danger", "User unsuccessfully destroyed");
+        if (!$destroy) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User unsuccessfully destroyed',
+            ]);
         }
 
-        return redirect()->route('user');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User successfully destroyed',
+        ]);
     }
 
     public function profile() {

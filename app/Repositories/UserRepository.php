@@ -23,7 +23,7 @@ class UserRepository implements UserRepositoryInterface {
 
             if (\Laratrust::isAbleTo('user-destroy-data') && \Auth::user()->id !== $col->id) {
                 $actions .= '
-                    <a href="' . route('user.destroy', ['user' => $col->id]) . '" class="btn btn-xs bg-gradient-danger" onclick="return confirm(\'Anda yakin untuk menghapus data ?\');" data-toggle="tooltip" data-placement="top" title="Delete">
+                    <a href="javascript:void(0)" class="btn btn-xs bg-gradient-danger" onclick="Delete('.$col->id.','."'".$col->name."'".')" data-toggle="tooltip" data-placement="top" title="Delete">
                         <i class="fa fa-trash-alt" aria-hidden="true"></i>
                     </a>
                 ';

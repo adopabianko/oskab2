@@ -92,7 +92,7 @@
             responsive: true,
             processing: true,
             serverSide: true,
-            ajax: '{!! route('permission.datatables') !!}',
+            ajax: window.location.href + '/datatables',
             columns: [
                 {data: 'DT_RowIndex', name: 'id', className: "text-center", searchable: false},
                 {data: 'name', name: 'name'},
