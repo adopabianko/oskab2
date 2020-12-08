@@ -130,7 +130,7 @@ class UserSeeder extends Seeder
         \DB::table('users')->insert([
             'role_id' => 1,
             'name' => 'Administrator',
-            'email' => 'admin@admin.com',
+            'email' => 'admin@oskab.com',
             'password' => \bcrypt('secret')
         ]);
         // End User Data
