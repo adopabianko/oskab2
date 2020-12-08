@@ -3,6 +3,6 @@
 </p>
 
 <p align="center">
-<a href="https://laravel.com"><img src="https://img.shields.io/badge/made%20with-Laravel-brightgreen"></a>
+<a href="https://laravel.com"><img src="https://img.shields.io/badge/made%20with-Laravel-red"></a>
 <img src="https://img.shields.io/badge/version-1.0.0-blueviolet" alt="Version 1.0.0">
 </p>
