@@ -20,8 +20,6 @@ class RoleController extends Controller
         PermissionRepository $permissionRepository,
         PermissionRoleRepository $permissionRoleRepository
     ) {
-        $this->middleware('auth');
-
         $this->roleRepository = $roleRepository;
         $this->permissionRepository = $permissionRepository;
         $this->permissionRoleRepository = $permissionRoleRepository;

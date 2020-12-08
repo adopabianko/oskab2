@@ -18,8 +18,6 @@ class UserController extends Controller
         UserRepository $userRepository,
         RoleRepository $roleRepository
     ) {
-        $this->middleware('auth');
-
         $this->userRepository = $userRepository;
         $this->roleRepository = $roleRepository;
     }
@@ -103,7 +101,7 @@ class UserController extends Controller
     public function profileUpdate(ProfileRequest $request, User $user) {
         $update = $this->userRepository->profileUpdate($request, $user);
 
-        if ($update) {  
+        if ($update) {
             \Session::flash("alert-success", "Profile successfully updated");
         } else {
             \Session::flash("alert-danger", "Profile unsuccessfully updated");
