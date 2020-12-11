@@ -6,3 +6,31 @@
 <a href="https://laravel.com"><img src="https://img.shields.io/badge/made%20with-Laravel-red"></a>
 <img src="https://img.shields.io/badge/version-1.0.0-blueviolet" alt="Version 1.0.0">
 </p>
+
+## Installation
+
+clone project
+
+``bash
+git clone https://github.com/adopabianko/oskab2.git
+``
+
+copy file .env
+
+``bash
+cp -R .env.example .env
+``
+
+run composer install
+
+``bash
+composer install
+``
+
+run laravel sail
+
+``bash
+./vendor/bin/sail up
+``
+
+access http://localhost:9595 via browser 
