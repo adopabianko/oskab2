@@ -11,25 +11,25 @@
 
 clone project
 
-``bash
+``
 git clone https://github.com/adopabianko/oskab2.git
 ``
 
 copy file .env
 
-``bash
+``
 cp -R .env.example .env
 ``
 
 run composer install
 
-``bash
+``
 composer install
 ``
 
 run laravel sail
 
-``bash
+``
 ./vendor/bin/sail up
 ``
 
