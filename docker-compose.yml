@@ -9,7 +9,7 @@ services:
                 WWWGROUP: '${WWWGROUP}'
         image: sail-8.0/app
         ports:
-            - '9595:80'
+            - '8282:80'
         environment:
             WWWUSER: '${WWWUSER}'
             LARAVEL_SAIL: 1
@@ -32,7 +32,7 @@ services:
     mysql:
         image: 'mysql:8.0'
         ports:
-            - '3309:3306'
+            - '3307:3306'
         environment:
             MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
             MYSQL_DATABASE: '${DB_DATABASE}'
@@ -46,7 +46,7 @@ services:
     redis:
         image: 'redis:alpine'
         ports:
-            - '6382:6379'
+            - '6380:6379'
         volumes:
             - 'sailredis:/data'
         networks:
