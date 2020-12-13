@@ -12,7 +12,7 @@
 clone project
 
 ``
-git clone https://github.com/adopabianko/oskab2.git
+git clone https://github.com/adopabianko/oskab.git
 ``
 
 copy file .env
