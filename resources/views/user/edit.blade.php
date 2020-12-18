@@ -52,7 +52,7 @@
                                     <select name="role_id" class="form-control" id="role">
                                         <option disabled selected>Choose</option>
                                         @foreach($roles as $item)
-                                        @php $selected = $item->id == $user->role_id ? 'selected' : '' @endphp
+                                        @php $selected = $item->id == $roleUser->role_id ? 'selected' : '' @endphp
                                         <option {{ $selected }} value="{{ $item->id }}">{{ $item->display_name }}</option>
                                         @endforeach
                                     </select>
@@ -66,11 +66,11 @@
                                     <input type="email" name="email" value="{{ $user->email }}" class="form-control" id="email" placeholder="Enter Email Address">
                                 </div>
                                 <div class="form-group">
-                                    <label for="password">Password</label> <label class="text-danger">*</label>
+                                    <label for="password">Password</label>
                                     <input type="password" name="password" class="form-control" id="password" placeholder="Enter Password">
                                 </div>
                                 <div class="form-group">
-                                    <label for="confirm-password">Confirm Password</label> <label class="text-danger">*</label>
+                                    <label for="confirm-password">Confirm Password</label>
                                     <input type="password" name="password_confirmation" class="form-control" id="confirm-password" autocomplete="new-password" placeholder="Enter Confirm Password">
                                 </div>
                             </div>

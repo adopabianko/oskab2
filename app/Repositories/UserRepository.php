@@ -4,12 +4,21 @@ namespace App\Repositories;
 
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Models\User;
+use App\Models\RoleUser;
 use Yajra\Datatables\Datatables;
 
 class UserRepository implements UserRepositoryInterface {
 
     public function datatables() {
-        return Datatables::of(User::with('role')->where('active', 1)->orderBy('id','desc')->get())
+        $users = \DB::table('users as aa')
+        ->select('aa.*', 'cc.display_name',)
+        ->join('role_user as bb', 'aa.id', '=', 'bb.user_id')
+        ->join('roles as cc', 'bb.role_id', '=', 'cc.id')
+        ->where('aa.active', 1)
+        ->orderBy('aa.id','desc')
+        ->get();
+
+        return Datatables::of($users)
         ->editColumn('actions', function($col) {
             $actions = '';
 
@@ -40,11 +49,15 @@ class UserRepository implements UserRepositoryInterface {
         \DB::beginTransaction();
 
         try {
+            $roleId = $userData['role_id'];
+
+            unset($userData['role_id']);
+        
             $user = new User($userData);
             $user->password = \Hash::make($userData['password']);
 
             $user->save();
-            $user->attachRole($userData['role_id']);
+            $user->attachRole($roleId);
 
             \DB::commit();
 
@@ -57,30 +70,32 @@ class UserRepository implements UserRepositoryInterface {
 
     }
 
+    public function getRoleUser($userId) {
+        return RoleUser::where('user_id', $userId)->first();
+    }
+
     public function update($reqParam, $userData) {
         \DB::beginTransaction();
 
         try {
             $password = $reqParam->password;
-            $update = $reqParam->all();
+            $updateParam = $reqParam->all();
 
             if (!empty($password)) {
                 $password = \Hash::make($password);
 
-                $update['password'] = $password;
+                $updateParam['password'] = $password;
             } else {
-                unset($update['password']);
+                unset($updateParam['password']);
             }
 
-            $userData->update($reqParam->all());
+            $roleId = $updateParam['role_id'];
 
-            $roles = $userData->roles();
+            unset($updateParam['role_id']);
+            
+            $userData->update($updateParam);
 
-            foreach($roles as $item) {
-                $userData->detachRole($item);
-            }
-
-            $userData->attachRole($reqParam->role_id);
+            $userData->syncRoles([$roleId]);
 
             \DB::commit();
         } catch(\Exception $e) {

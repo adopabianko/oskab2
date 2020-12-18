@@ -98,7 +98,7 @@
             ajax: window.location.href + '/datatables',
             columns: [
                 {data: 'DT_RowIndex', name: 'id', className: "text-center", searchable: false, orderable: false},
-                {data: 'role.display_name', name: 'role_name'},
+                {data: 'display_name', name: 'display_name'},
                 {data: 'name', name: 'name'},
                 {data: 'email', name: 'email'},
                 {data: 'actions', name: 'actions', className: "text-center", searchable: false, orderable: false},

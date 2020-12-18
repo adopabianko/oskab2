@@ -55,8 +55,9 @@ class UserController extends Controller
 
     public function edit(User $user) {
         $roles = $this->roleRepository->getAll();
+        $roleUser = $this->userRepository->getRoleUser($user->id);
 
-        return view('user.edit', compact('roles','user'));
+        return view('user.edit', compact('roles', 'roleUser', 'user'));
     }
 
     public function update(UserRequest $request, User $user) {
