@@ -7,30 +7,45 @@
 <img src="https://img.shields.io/badge/version-1.0.0-blueviolet" alt="Version 1.0.0">
 </p>
 
-## Installation
+# Installation
 
-clone project
+Clone repository
 
-``
-git clone https://github.com/adopabianko/oskab.git
-``
+```bash
+$ git clone https://github.com/adopabianko/oskab.git
+```
 
-copy file .env
+Copy file .env
 
-``
-cp -R .env.example .env
-``
+```bash
+$ cp -R .env.example .env
+```
 
-run composer install
+Run composer install
 
-``
-composer install
-``
+```bash
+$ composer install
+```
 
-run laravel sail
+Run laravel sail
 
-``
-./vendor/bin/sail up
-``
+```bash
+$ ./vendor/bin/sail up
+```
 
-access http://localhost:9595 via browser 
+Run database migration & seeder
+```bash
+$ ./vendor/bin/sail artisan migrate
+```
+
+```bash
+$ ./vendor/bin/sail artisan db:seed
+```
+
+Access http://localhost:8282 via browser
+
+Default user account :
+```bash
+Email : admin@oskab.com
+Password : secret
+```
