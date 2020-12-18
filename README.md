@@ -45,7 +45,5 @@ $ ./vendor/bin/sail artisan db:seed
 Access http://localhost:8282 via browser
 
 Default user account :
-```bash
-Email : admin@oskab.com
-Password : secret
-```
+ - Email : admin@oskab.com
+ - Password : secret
