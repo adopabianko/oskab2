@@ -9,7 +9,7 @@
 
 # Installation
 
-#### Step 1 Clone repository
+#### Step 1 Checkout Oskab
 
 ```bash
 $ git clone https://github.com/adopabianko/oskab.git
