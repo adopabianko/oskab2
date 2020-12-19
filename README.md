@@ -9,31 +9,31 @@
 
 # Installation
 
-Clone repository
+### Step 1 Clone repository
 
 ```bash
 $ git clone https://github.com/adopabianko/oskab.git
 ```
 
-Copy file .env
+### Step 2 Copy file .env
 
 ```bash
 $ cp -R .env.example .env
 ```
 
-Run composer install
+### Step 3 Run composer install
 
 ```bash
 $ composer install
 ```
 
-Run laravel sail
+### Step 4 Run laravel sail
 
 ```bash
 $ ./vendor/bin/sail up
 ```
 
-Run database migration & seeder
+### Step 5 Run database migration & seeder
 ```bash
 $ ./vendor/bin/sail artisan migrate
 ```
@@ -42,7 +42,7 @@ $ ./vendor/bin/sail artisan migrate
 $ ./vendor/bin/sail artisan db:seed
 ```
 
-Access http://localhost:8282 via browser
+### Step 5 Access http://localhost:8282 via browser
 
 Default user account :
  - Email : admin@oskab.com
