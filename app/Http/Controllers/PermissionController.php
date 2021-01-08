@@ -6,6 +6,7 @@ use App\Http\Requests\PermissionRequest;
 use App\Repositories\PermissionRepository;
 use App\Models\Permission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class PermissionController extends Controller
 {
@@ -31,9 +32,9 @@ class PermissionController extends Controller
         $save = $this->permissionRepository->save($request->all());
 
         if ($save) {
-            \Session::flash("alert-success", "Permission sucessfully saved");
+            Session::flash("alert-success", "Permission sucessfully saved");
         } else {
-            \Session::flash("alert-danger", "Permission unsucessfully saved");
+            Session::flash("alert-danger", "Permission unsucessfully saved");
         }
 
         return redirect()->route('permission');
@@ -47,9 +48,9 @@ class PermissionController extends Controller
         $update = $this->permissionRepository->update($request, $permission);
 
         if ($update) {
-            \Session::flash("alert-success", "Permission sucessfully updated");
+            Session::flash("alert-success", "Permission sucessfully updated");
         } else {
-            \Session::flash("alert-danger", "Permission unsucessfully updated");
+            Session::flash("alert-danger", "Permission unsucessfully updated");
         }
 
         return redirect()->route('permission');

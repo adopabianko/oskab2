@@ -5,6 +5,8 @@ namespace App\Repositories;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 use App\Models\RoleUser;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements UserRepositoryInterface {
 
@@ -36,7 +38,7 @@ class UserRepository implements UserRepositoryInterface {
     }
 
     public function save($userData) {
-        \DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
             $roleId = $userData['role_id'];
@@ -44,16 +46,16 @@ class UserRepository implements UserRepositoryInterface {
             unset($userData['role_id']);
 
             $user = new User($userData);
-            $user->password = \Hash::make($userData['password']);
+            $user->password = Hash::make($userData['password']);
 
             $user->save();
             $user->attachRole($roleId);
 
-            \DB::commit();
+            DB::commit();
 
             return true;
         } catch(\Exception $e) {
-            \DB::rollback();
+            DB::rollback();
 
             return false;
         }
@@ -65,14 +67,14 @@ class UserRepository implements UserRepositoryInterface {
     }
 
     public function update($reqParam, $userData) {
-        \DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
             $password = $reqParam->password;
             $updateParam = $reqParam->all();
 
             if (!empty($password)) {
-                $password = \Hash::make($password);
+                $password = Hash::make($password);
 
                 $updateParam['password'] = $password;
             } else {
@@ -87,9 +89,9 @@ class UserRepository implements UserRepositoryInterface {
 
             $userData->syncRoles([$roleId]);
 
-            \DB::commit();
+            DB::commit();
         } catch(\Exception $e) {
-            \DB::rollback();
+            DB::rollback();
 
             return false;
         }
@@ -100,7 +102,7 @@ class UserRepository implements UserRepositoryInterface {
     }
 
     public function profileUpdate($reqParam, $userData) {
-        $reqParam['password'] = \Hash::make($reqParam->password);
+        $reqParam['password'] = Hash::make($reqParam->password);
 
         return $userData->update($reqParam->all());
     }

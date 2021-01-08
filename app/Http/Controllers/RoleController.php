@@ -8,6 +8,7 @@ use App\Repositories\RoleRepository;
 use App\Repositories\PermissionRepository;
 use App\Repositories\PermissionRoleRepository;
 use App\Models\Role;
+use Illuminate\Support\Facades\Session;
 
 class RoleController extends Controller
 {
@@ -39,9 +40,9 @@ class RoleController extends Controller
         $save = $this->roleRepository->save($request->all());
 
         if ($save) {
-            \Session::flash("alert-success", "Role sucessfully saved");
+            Session::flash("alert-success", "Role sucessfully saved");
         } else {
-            \Session::flash("alert-danger", "Role unsucessfully saved");
+            Session::flash("alert-danger", "Role unsucessfully saved");
         }
 
         return redirect()->route('role');
@@ -55,9 +56,9 @@ class RoleController extends Controller
         $update = $this->roleRepository->update($request, $role);
 
         if ($update) {
-            \Session::flash("alert-success", "Role sucessfully updated");
+            Session::flash("alert-success", "Role sucessfully updated");
         } else {
-            \Session::flash("alert-danger", "Role unsucessfully updated");
+            Session::flash("alert-danger", "Role unsucessfully updated");
         }
 
         return redirect()->route('role');
@@ -94,7 +95,7 @@ class RoleController extends Controller
                 $role->attachPermission($value);
             }
 
-            \Session::flash('alert-success', 'Access management successfully updated.');
+            Session::flash('alert-success', 'Access management successfully updated.');
         } else {
             // insert data
             $role = $this->roleRepository->findById($roleId);
@@ -103,7 +104,7 @@ class RoleController extends Controller
                 $role->attachPermission($value);
             }
 
-            \Session::flash('alert-success', 'Access management successfully added.');
+            Session::flash('alert-success', 'Access management successfully added.');
         }
 
         return redirect()->route('role');
