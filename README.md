@@ -42,7 +42,7 @@ $ ./vendor/bin/sail artisan migrate
 $ ./vendor/bin/sail artisan db:seed
 ```
 
-#### Step 5 Access http://localhost:8282 via browser
+#### Step 6 Access http://localhost:8282 via browser
 
 Default user account :
  - Email : admin@oskab.com
