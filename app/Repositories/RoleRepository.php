@@ -11,31 +11,28 @@ class RoleRepository implements RoleRepositoryInterface {
         return Role::orderBy('id', 'desc')->get();
     }
 
-    public function findAllWithPaginate($reqParam) {
-        $name = $reqParam->name;
-        $display_name = $reqParam->display_name;
-
+    public function findAllWithPaginate(string $name = null, string $displayName = null) {
         return Role::when($name, function($q) use ($name) {
             return $q->where('name', $name);
         })
-            ->when($display_name, function($q) use ($display_name) {
-                return $q->where('display_name', $display_name);
-            })
-            ->orderBy('id', 'desc')
-            ->paginate(10);
+        ->when($displayName, function($q) use ($displayName) {
+            return $q->where('display_name', $displayName);
+        })
+        ->orderBy('id', 'desc')
+        ->paginate(10);
     }
 
-    public function save($roleData) {
+    public function save(array $roleData) {
         $role = new Role($roleData);
 
         return $role->save();
     }
 
-    public function findById($id) {
+    public function findById(int $id) {
         return Role::findOrFail($id);
     }
 
-    public function update($reqParam, $roleData) {
-        return $roleData->update($reqParam->all());
+    public function update(array $newRoleData, Role $oldRoleData) {
+        return $oldRoleData->update($newRoleData);
     }
 }

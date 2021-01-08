@@ -16,11 +16,7 @@ class UserRepository implements UserRepositoryInterface {
         ->orderBy('id', 'desc')->get();
     }
 
-    public function findAllWithPaginate($reqParam) {
-        $role = $reqParam->role;
-        $name = $reqParam->name;
-        $email = $reqParam->email;
-
+    public function findAllWithPaginate(string $role = null, string $name = null, string $email = null) {
         return User::with('role_user.role')
         ->when($role && $role !== 'all', function($q) use ($role) {
             $q->whereHas('role_user.role', function($q) use ($role) {
@@ -37,7 +33,7 @@ class UserRepository implements UserRepositoryInterface {
         ->orderBy('id', 'desc')->paginate(10);
     }
 
-    public function save($userData) {
+    public function save(array $userData) {
         DB::beginTransaction();
 
         try {
@@ -62,32 +58,31 @@ class UserRepository implements UserRepositoryInterface {
 
     }
 
-    public function findRoleUser($userId) {
+    public function findRoleUser(int $userId) {
         return RoleUser::where('user_id', $userId)->first();
     }
 
-    public function update($reqParam, $userData) {
+    public function update(array $newUserData, User $oldUserData) {
         DB::beginTransaction();
 
         try {
-            $password = $reqParam->password;
-            $updateParam = $reqParam->all();
+            $password = $newUserData['password'];
 
             if (!empty($password)) {
                 $password = Hash::make($password);
 
-                $updateParam['password'] = $password;
+                $newUserData['password'] = $password;
             } else {
-                unset($updateParam['password']);
+                unset($newUserData['password']);
             }
 
-            $roleId = $updateParam['role_id'];
+            $roleId = $newUserData['role_id'];
 
-            unset($updateParam['role_id']);
+            unset($newUserData['role_id']);
 
-            $userData->update($updateParam);
+            $oldUserData->update($newUserData);
 
-            $userData->syncRoles([$roleId]);
+            $oldUserData->syncRoles([$roleId]);
 
             DB::commit();
         } catch(\Exception $e) {
@@ -97,13 +92,13 @@ class UserRepository implements UserRepositoryInterface {
         }
     }
 
-    public function destroy($id) {
+    public function destroy(int $id) {
         return User::where('id', $id)->update(['active' => 0]);
     }
 
-    public function profileUpdate($reqParam, $userData) {
-        $reqParam['password'] = Hash::make($reqParam->password);
+    public function profileUpdate(array $newUserData, User $oldUserData) {
+        $newUserData['password'] = Hash::make($newUserData['password']);
 
-        return $userData->update($reqParam->all());
+        return $oldUserData->update($newUserData);
     }
 }

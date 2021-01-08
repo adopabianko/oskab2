@@ -2,10 +2,12 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Models\Role;
+
 interface RoleRepositoryInterface {
     public function findAll();
-    public function findAllWithPaginate($reqParam);
-    public function save($roleData);
-    public function findById($id);
-    public function update($reqParam, $roleData);
+    public function findAllWithPaginate(string $name, string $displayName);
+    public function save(array $roleData);
+    public function findById(int $id);
+    public function update(array $newRoleData, Role $oldRoleData);
 }

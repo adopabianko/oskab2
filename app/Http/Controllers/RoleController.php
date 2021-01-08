@@ -27,7 +27,10 @@ class RoleController extends Controller
     }
 
     public function index(Request $request) {
-        $roles = $this->roleRepository->findAllWithPaginate($request);
+        $name = $request->name;
+        $displayName = $request->display_name;
+
+        $roles = $this->roleRepository->findAllWithPaginate($name, $displayName);
 
         return view('role.index', compact('roles'));
     }
@@ -53,7 +56,7 @@ class RoleController extends Controller
     }
 
     public function update(RoleRequest $request, Role $role) {
-        $update = $this->roleRepository->update($request, $role);
+        $update = $this->roleRepository->update($request->all(), $role);
 
         if ($update) {
             Session::flash("alert-success", "Role sucessfully updated");

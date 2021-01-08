@@ -19,7 +19,10 @@ class PermissionController extends Controller
     }
 
     public function index(Request $request) {
-        $permissions = $this->permissionRepository->findAllWithPaginate($request);
+        $name = $request->name;
+        $displayName = $request->display_name;
+
+        $permissions = $this->permissionRepository->findAllWithPaginate($name, $displayName);
 
         return view('permission.index', compact('permissions'));
     }
@@ -45,7 +48,7 @@ class PermissionController extends Controller
     }
 
     public function update(PermissionRequest $request, Permission $permission) {
-        $update = $this->permissionRepository->update($request, $permission);
+        $update = $this->permissionRepository->update($request->all(), $permission);
 
         if ($update) {
             Session::flash("alert-success", "Permission sucessfully updated");

@@ -8,7 +8,7 @@ use App\Repositories\UserRepository;
 use App\Repositories\RoleRepository;
 use App\Models\User;
 use App\Jobs\SendUserAccount;
-use Illuminate\Http\Request
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,7 +26,11 @@ class UserController extends Controller
     }
 
     public function index(Request $request) {
-        $users = $this->userRepository->findAllWithPaginate($request);
+        $role = $request->role;
+        $name = $request->name;
+        $email = $request->email;
+
+        $users = $this->userRepository->findAllWithPaginate($role, $name, $email);
         $roles = $this->roleRepository->findAll();
 
         return view('user.index', compact('users', 'roles'));
@@ -67,7 +71,7 @@ class UserController extends Controller
             // send to email user
             SendUserAccount::dispatch($request->all());
 
-            $this->userRepository->update($request, $user);
+            $this->userRepository->update($request->all(), $user);
 
             Session::flash("alert-success", "User successfully updated");
         } catch(Exception $e) {
@@ -102,7 +106,7 @@ class UserController extends Controller
     }
 
     public function profileUpdate(ProfileRequest $request, User $user) {
-        $update = $this->userRepository->profileUpdate($request, $user);
+        $update = $this->userRepository->profileUpdate($request->all(), $user);
 
         if ($update) {
             Session::flash("alert-success", "Profile successfully updated");

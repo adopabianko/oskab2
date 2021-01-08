@@ -11,31 +11,28 @@ class PermissionRepository implements PermissionRepositoryInterface {
         return Permission::orderBy('id', 'desc')->get();
     }
 
-    public function findAllWithPaginate($reqParam) {
-        $name = $reqParam->name;
-        $display_name = $reqParam->display_name;
-
+    public function findAllWithPaginate(string $name = null, string $displayName = null) {
         return Permission::when($name, function($q) use ($name) {
             return $q->where('name', $name);
         })
-        ->when($display_name, function($q) use ($display_name) {
-            return $q->where('display_name', $display_name);
+        ->when($displayName, function($q) use ($displayName) {
+            return $q->where('display_name', $displayName);
         })
         ->orderBy('id', 'desc')
         ->paginate(10);
     }
 
-    public function save($permissionData) {
+    public function save(array $permissionData) {
         $permission = new Permission($permissionData);
 
         return $permission->save();
     }
 
-    public function findById($id) {
+    public function findById(int $id) {
         return Permission::findOrFail($id);
     }
 
-    public function update($reqParam, $permissionData) {
-        return $permissionData->update($reqParam->all());
+    public function update(array $newPermissionData, Permission $oldPermissionData) {
+        return $oldPermissionData->update($newPermissionData);
     }
 }
