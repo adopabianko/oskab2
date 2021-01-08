@@ -3,9 +3,10 @@
 namespace App\Repositories\Interfaces;
 
 interface UserRepositoryInterface {
-    public function datatables();
+    public function findAll();
+    public function findAllWithPaginate($reqParam);
     public function save($userData);
-    public function getRoleUser($userId);
+    public function findRoleUser($userId);
     public function update($reqParam, $userData);
     public function destroy($id);
     public function profileUpdate($reqParam, $userData);

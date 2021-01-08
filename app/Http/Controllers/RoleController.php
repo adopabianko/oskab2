@@ -25,12 +25,10 @@ class RoleController extends Controller
         $this->permissionRoleRepository = $permissionRoleRepository;
     }
 
-    public function index() {
-        return view('role.index');
-    }
+    public function index(Request $request) {
+        $roles = $this->roleRepository->findAllWithPaginate($request);
 
-    public function datatables() {
-        return $this->roleRepository->datatables();
+        return view('role.index', compact('roles'));
     }
 
     public function create() {
@@ -66,8 +64,8 @@ class RoleController extends Controller
     }
 
     public function accessManagement(Role $role) {
-        $permissions = $this->permissionRepository->getAll();
-        $permissionRole = $this->permissionRoleRepository->getById($role->id);
+        $permissions = $this->permissionRepository->findAll();
+        $permissionRole = $this->permissionRoleRepository->findById($role->id);
 
         $permissionRoleArr = [];
 
@@ -79,12 +77,12 @@ class RoleController extends Controller
     }
 
     public function accessManagementStore(Request $request) {
-        $roleData = $this->permissionRoleRepository->getById($request->role_id);
+        $roleData = $this->permissionRoleRepository->findById($request->role_id);
         $roleId = $request->role_id;
 
         if (count($roleData) > 0) {
             // update data
-            $role = $this->roleRepository->getById($roleId);
+            $role = $this->roleRepository->findById($roleId);
 
             // delete data permission per role
             foreach ($roleData as $key => $value) {
@@ -99,7 +97,7 @@ class RoleController extends Controller
             \Session::flash('alert-success', 'Access management successfully updated.');
         } else {
             // insert data
-            $role = $this->roleRepository->getById($roleId);
+            $role = $this->roleRepository->findById($roleId);
 
             foreach ($request->checkbox_permission as $key => $value) {
                 $role->attachPermission($value);

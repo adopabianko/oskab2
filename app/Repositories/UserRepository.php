@@ -5,41 +5,34 @@ namespace App\Repositories;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 use App\Models\RoleUser;
-use Yajra\Datatables\Datatables;
 
 class UserRepository implements UserRepositoryInterface {
 
-    public function datatables() {
-        $users =  User::with('role_user.role')->get();
+    public function findAll() {
+        return User::with('role_user.role')
+        ->where('active', 1)
+        ->orderBy('id', 'desc')->get();
+    }
 
-        return Datatables::of($users)
-        ->editColumn('actions', function($col) {
-            $actions = '';
+    public function findAllWithPaginate($reqParam) {
+        $role = $reqParam->role;
+        $name = $reqParam->name;
+        $email = $reqParam->email;
 
-            if (\Laratrust::isAbleTo('user-edit-data')) {
-                $actions .= '
-                    <a href="' . route('user.edit', ['user' => $col->id]) . '" class="btn btn-xs bg-gradient-info" data-toggle="tooltip" data-placement="top" title="Edit">
-                        <i class="fa fa-pencil-alt" aria-hidden="true"></i>
-                    </a>
-                ';
-            }
-
-            if (\Laratrust::isAbleTo('user-destroy-data') && \Auth::user()->id !== $col->id) {
-                $actions .= '
-                    <a href="javascript:void(0)" class="btn btn-xs bg-gradient-danger" onclick="Delete('.$col->id.','."'".$col->name."'".')" data-toggle="tooltip" data-placement="top" title="Delete">
-                        <i class="fa fa-trash-alt" aria-hidden="true"></i>
-                    </a>
-                ';
-            }
-
-            return $actions;
+        return User::with('role_user.role')
+        ->when($role !== 'all', function($q) use ($role) {
+            $q->whereHas('role_user.role', function($q) use ($role) {
+                return $q->where('name', $role);
+            });
         })
-        ->editColumn('display_name', function($col) {
-            return $col->role_user->role->display_name;
+        ->when($name, function($q) use ($name){
+            return $q->where('name', $name);
         })
-        ->rawColumns(['display_name', 'actions'])
-        ->addIndexColumn()
-        ->make(true);
+        ->when($email, function($q) use ($email){
+            return $q->where('email', $email);
+        })
+        ->where('active', 1)
+        ->orderBy('id', 'desc')->paginate(10);
     }
 
     public function save($userData) {
@@ -49,7 +42,7 @@ class UserRepository implements UserRepositoryInterface {
             $roleId = $userData['role_id'];
 
             unset($userData['role_id']);
-        
+
             $user = new User($userData);
             $user->password = \Hash::make($userData['password']);
 
@@ -67,7 +60,7 @@ class UserRepository implements UserRepositoryInterface {
 
     }
 
-    public function getRoleUser($userId) {
+    public function findRoleUser($userId) {
         return RoleUser::where('user_id', $userId)->first();
     }
 
@@ -89,7 +82,7 @@ class UserRepository implements UserRepositoryInterface {
             $roleId = $updateParam['role_id'];
 
             unset($updateParam['role_id']);
-            
+
             $userData->update($updateParam);
 
             $userData->syncRoles([$roleId]);

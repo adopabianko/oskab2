@@ -4,40 +4,25 @@ namespace App\Repositories;
 
 use App\Repositories\Interfaces\RoleRepositoryInterface;
 use App\Models\Role;
-use Yajra\Datatables\Datatables;
 
 class RoleRepository implements RoleRepositoryInterface {
 
-    public function getAll() {
-        return Role::all();
+    public function findAll() {
+        return Role::orderBy('id', 'desc')->get();
     }
 
-    public function datatables() {
-        return Datatables::of(Role::orderBy('id','desc')->get())
-            ->editColumn('actions', function($col) {
-                $actions = '';
+    public function findAllWithPaginate($reqParam) {
+        $name = $reqParam->name;
+        $display_name = $reqParam->display_name;
 
-                if (\Laratrust::isAbleTo('role-edit-data')) {
-                    $actions .= '
-                        <a href="'.route('role.edit', ['role' => $col->id]).'" class="btn btn-xs bg-gradient-info" data-toggle="tooltip" data-placement="top" title="Edit">
-                            <i class="fa fa-pencil-alt" aria-hidden="true"></i>
-                        </a>
-                    ';
-                }
-
-                if (\Laratrust::isAbleTo('role-access-management')) {
-                    $actions .= '
-                        <a href="' . route('role.access-management', ['role' => $col->id]) . '" class="btn btn-xs bg-gradient-secondary" data-toggle="tooltip" data-placement="top" title="Access Management">
-                            <i class="fa fa-unlock-alt" aria-hidden="true"></i>
-                        </a>
-                    ';
-                }
-
-                return $actions;
+        return Role::when($name, function($q) use ($name) {
+            return $q->where('name', $name);
+        })
+            ->when($display_name, function($q) use ($display_name) {
+                return $q->where('display_name', $display_name);
             })
-            ->rawColumns(['actions'])
-            ->addIndexColumn()
-            ->make(true);
+            ->orderBy('id', 'desc')
+            ->paginate(10);
     }
 
     public function save($roleData) {
@@ -46,7 +31,7 @@ class RoleRepository implements RoleRepositoryInterface {
         return $role->save();
     }
 
-    public function getById($id) {
+    public function findById($id) {
         return Role::findOrFail($id);
     }
 

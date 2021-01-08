@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PermissionRequest;
 use App\Repositories\PermissionRepository;
 use App\Models\Permission;
+use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
@@ -16,12 +17,10 @@ class PermissionController extends Controller
         $this->permissionRepository = $permissionRepository;
     }
 
-    public function index() {
-        return view('permission.index');
-    }
+    public function index(Request $request) {
+        $permissions = $this->permissionRepository->findAllWithPaginate($request);
 
-    public function datatables() {
-        return $this->permissionRepository->datatables();
+        return view('permission.index', compact('permissions'));
     }
 
     public function create() {

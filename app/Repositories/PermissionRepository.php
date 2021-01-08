@@ -4,32 +4,25 @@ namespace App\Repositories;
 
 use App\Repositories\Interfaces\PermissionRepositoryInterface;
 use App\Models\Permission;
-use Yajra\Datatables\Datatables;
 
 class PermissionRepository implements PermissionRepositoryInterface {
 
-    public function getAll() {
-        return Permission::all();
+    public function findAll() {
+        return Permission::orderBy('id', 'desc')->get();
     }
 
-    public function datatables() {
-        return Datatables::of(Permission::orderBy('id','desc')->get())
-            ->editColumn('actions', function($col) {
-                $actions = '';
+    public function findAllWithPaginate($reqParam) {
+        $name = $reqParam->name;
+        $display_name = $reqParam->display_name;
 
-                if (\Laratrust::isAbleTo('permission-edit-data')) {
-                    $actions .= '
-                        <a href="'.route('permission.edit', ['permission' => $col->id]).'" class="btn btn-xs bg-gradient-info" data-toggle="tooltip" data-placement="top" title="Edit">
-                            <i class="fa fa-pencil-alt" aria-hidden="true"></i>
-                        </a>
-                    ';
-                }
-
-                return $actions;
-            })
-            ->rawColumns(['actions'])
-            ->addIndexColumn()
-            ->make(true);
+        return Permission::when($name, function($q) use ($name) {
+            return $q->where('name', $name);
+        })
+        ->when($display_name, function($q) use ($display_name) {
+            return $q->where('display_name', $display_name);
+        })
+        ->orderBy('id', 'desc')
+        ->paginate(10);
     }
 
     public function save($permissionData) {
@@ -38,7 +31,7 @@ class PermissionRepository implements PermissionRepositoryInterface {
         return $permission->save();
     }
 
-    public function getById($id) {
+    public function findById($id) {
         return Permission::findOrFail($id);
     }
 

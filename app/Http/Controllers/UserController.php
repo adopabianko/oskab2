@@ -8,6 +8,7 @@ use App\Repositories\UserRepository;
 use App\Repositories\RoleRepository;
 use App\Models\User;
 use App\Jobs\SendUserAccount;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -22,16 +23,15 @@ class UserController extends Controller
         $this->roleRepository = $roleRepository;
     }
 
-    public function index() {
-        return view('user.index');
-    }
+    public function index(Request $request) {
+        $users = $this->userRepository->findAllWithPaginate($request);
+        $roles = $this->roleRepository->findAll();
 
-    public function datatables() {
-        return $this->userRepository->datatables();
+        return view('user.index', compact('users', 'roles'));
     }
 
     public function create() {
-        $roles = $this->roleRepository->getAll();
+        $roles = $this->roleRepository->findAll();
 
         return view('user.create', compact('roles'));
     }
@@ -54,8 +54,8 @@ class UserController extends Controller
     }
 
     public function edit(User $user) {
-        $roles = $this->roleRepository->getAll();
-        $roleUser = $this->userRepository->getRoleUser($user->id);
+        $roles = $this->roleRepository->findAll();
+        $roleUser = $this->userRepository->findRoleUser($user->id);
 
         return view('user.edit', compact('roles', 'roleUser', 'user'));
     }
