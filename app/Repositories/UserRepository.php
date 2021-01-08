@@ -20,7 +20,7 @@ class UserRepository implements UserRepositoryInterface {
         $email = $reqParam->email;
 
         return User::with('role_user.role')
-        ->when($role !== 'all', function($q) use ($role) {
+        ->when($role && $role !== 'all', function($q) use ($role) {
             $q->whereHas('role_user.role', function($q) use ($role) {
                 return $q->where('name', $role);
             });
