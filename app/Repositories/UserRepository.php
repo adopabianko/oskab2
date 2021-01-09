@@ -24,10 +24,10 @@ class UserRepository implements UserRepositoryInterface {
             });
         })
         ->when($name, function($q) use ($name){
-            return $q->where('name', $name);
+            return $q->where('name', 'like', "%{$name}%");
         })
         ->when($email, function($q) use ($email){
-            return $q->where('email', $email);
+            return $q->where('email', 'like', "%{$email}%");
         })
         ->where('active', 1)
         ->orderBy('id', 'desc')->paginate(10);

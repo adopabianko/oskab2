@@ -13,10 +13,10 @@ class RoleRepository implements RoleRepositoryInterface {
 
     public function findAllWithPaginate(string $name = null, string $displayName = null) {
         return Role::when($name, function($q) use ($name) {
-            return $q->where('name', $name);
+            return $q->where('name', 'like', "%{$name}%");
         })
         ->when($displayName, function($q) use ($displayName) {
-            return $q->where('display_name', $displayName);
+            return $q->where('display_name', 'like', "%{$displayName}%");
         })
         ->orderBy('id', 'desc')
         ->paginate(10);
