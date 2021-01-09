@@ -50,7 +50,7 @@
                         <div class="card-body">
                             @php
                                 $name = app('request')->get('name');
-                                $display_name = app('request')->get('display_name');
+                                $displayName = app('request')->get('display_name');
                             @endphp
                             <form action={{ route('role') }} method="GET">
                                 <div class="row">
@@ -63,7 +63,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label>Display Name</label>
-                                            <input type="text" name="display_name" class="form-control" value="{{ $display_name }}" placeholder="Display Name">
+                                            <input type="text" name="display_name" class="form-control" value="{{ $displayName }}" placeholder="Display Name">
                                         </div>
                                     </div>
                                 </div>
@@ -115,7 +115,12 @@
                             </table>
 
                             <div style="margin-top: 15px">
-                                {{ $roles->links() }}
+                                {{
+                                    $roles->appends([
+                                        'name' => $name,
+                                        'display_name' => $displayName
+                                    ])->links()
+                                }}
                             </div>
                         </div>
                     </div>
