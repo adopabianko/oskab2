@@ -13,26 +13,6 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        \DB::table('role_user')->truncate();
-        \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        \DB::table('permission_role')->truncate();
-        \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        \DB::table('roles')->truncate();
-        \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        \DB::table('permissions')->truncate();
-        \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        \DB::table('users')->truncate();
-        \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
         // Role Data
         \DB::table('roles')->insert([
             'name' => 'administrator',
